@@ -19,10 +19,4 @@ class RetrofitInstance {
             retrofit.create(GitHubApiService::class.java)
         }
     }
-
-//    fun getService(): GitHubApiService {
-//        retrofit = Retrofit.Builder().baseUrl(BASE_URL).addConverterFactory(GsonConverterFactory.create()).build()
-//
-//        return retrofit.create(GitHubApiService::class.java)
-//    }
 }

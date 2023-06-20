@@ -6,9 +6,12 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.NavController
+import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.supersonic.githubapi_balihome_testtask.R
+import com.supersonic.githubapi_balihome_testtask.UserRepositoryFragment
 import com.supersonic.githubapi_balihome_testtask.adapter.UserAdapter
 import com.supersonic.githubapi_balihome_testtask.data.api.RetrofitInstance
 import com.supersonic.githubapi_balihome_testtask.data.repository.UserRepositoryImpl
@@ -18,6 +21,7 @@ import com.supersonic.githubapi_balihome_testtask.ui.viewmodel.UserViewModelFact
 class UserListFragment : Fragment() {
     private lateinit var userAdapter: UserAdapter
     private lateinit var userViewModel: UserViewModel
+    private lateinit var navController: NavController
 
 
     override fun onCreateView(
@@ -27,7 +31,9 @@ class UserListFragment : Fragment() {
         val view = inflater.inflate(R.layout.fragment_user_list, container, false)
 
         val recyclerView = view.findViewById<RecyclerView>(R.id.usersRecyclerView)
-        userAdapter = UserAdapter()
+        userAdapter = UserAdapter { user ->
+            navigateToUserRepositoryFragment(user.login)
+        }
 
         recyclerView.apply {
             layoutManager = LinearLayoutManager(requireContext())
@@ -42,6 +48,22 @@ class UserListFragment : Fragment() {
         }
 
 
+
         return view
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        navController = Navigation.findNavController(view)
+    }
+
+    private fun navigateToUserRepositoryFragment(login: String) {
+        val userRepositoryFragment = UserRepositoryFragment()
+
+        val args = Bundle()
+        args.putString("login", login)
+
+        navController.navigate(R.id.action_userListFragment_to_userRepositoryFragment, args)
     }
 }

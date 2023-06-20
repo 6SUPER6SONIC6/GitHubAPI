@@ -9,5 +9,14 @@
         android:id="@+id/userListFragment"
         android:name="com.supersonic.githubapi_balihome_testtask.ui.view.UserListFragment"
         android:label="fragment_user_list"
-        tools:layout="@layout/fragment_user_list" />
+        tools:layout="@layout/fragment_user_list" >
+        <action
+            android:id="@+id/action_userListFragment_to_userRepositoryFragment"
+            app:destination="@id/userRepositoryFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/userRepositoryFragment"
+        android:name="com.supersonic.githubapi_balihome_testtask.UserRepositoryFragment"
+        android:label="fragment_user_repository"
+        tools:layout="@layout/fragment_user_repository" />
 </navigation>
