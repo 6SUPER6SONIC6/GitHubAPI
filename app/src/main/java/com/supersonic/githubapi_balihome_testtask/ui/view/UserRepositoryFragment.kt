@@ -1,4 +1,4 @@
-package com.supersonic.githubapi_balihome_testtask
+package com.supersonic.githubapi_balihome_testtask.ui.view
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.lifecycle.ViewModelProvider
+import com.supersonic.githubapi_balihome_testtask.R
 import com.supersonic.githubapi_balihome_testtask.data.api.RetrofitInstance
 import com.supersonic.githubapi_balihome_testtask.data.repository.UserRepositoryImpl
 import com.supersonic.githubapi_balihome_testtask.ui.viewmodel.UserViewModel

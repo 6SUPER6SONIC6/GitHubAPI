@@ -1,5 +1,6 @@
 package com.supersonic.githubapi_balihome_testtask.ui.view
 
+import android.content.res.Configuration
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -8,10 +9,10 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.supersonic.githubapi_balihome_testtask.R
-import com.supersonic.githubapi_balihome_testtask.UserRepositoryFragment
 import com.supersonic.githubapi_balihome_testtask.adapter.UserAdapter
 import com.supersonic.githubapi_balihome_testtask.data.api.RetrofitInstance
 import com.supersonic.githubapi_balihome_testtask.data.repository.UserRepositoryImpl
@@ -36,7 +37,16 @@ class UserListFragment : Fragment() {
         }
 
         recyclerView.apply {
-            layoutManager = LinearLayoutManager(requireContext())
+
+            when (resources.configuration.orientation) {
+                Configuration.ORIENTATION_PORTRAIT ->
+                    layoutManager = GridLayoutManager(requireContext(), 2)
+
+                Configuration.ORIENTATION_LANDSCAPE -> {
+                    layoutManager = GridLayoutManager(requireContext(), 4)
+                }
+            }
+
             adapter = userAdapter
         }
 

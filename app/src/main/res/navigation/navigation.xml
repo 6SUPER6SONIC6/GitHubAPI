@@ -16,7 +16,7 @@
     </fragment>
     <fragment
         android:id="@+id/userRepositoryFragment"
-        android:name="com.supersonic.githubapi_balihome_testtask.UserRepositoryFragment"
+        android:name="com.supersonic.githubapi_balihome_testtask.ui.view.UserRepositoryFragment"
         android:label="fragment_user_repository"
         tools:layout="@layout/fragment_user_repository" />
 </navigation>
