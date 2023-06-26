@@ -12,17 +12,25 @@ import androidx.navigation.Navigation
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.room.Room
 import com.supersonic.githubapi_balihome_testtask.R
 import com.supersonic.githubapi_balihome_testtask.adapter.UserAdapter
 import com.supersonic.githubapi_balihome_testtask.data.api.RetrofitInstance
+import com.supersonic.githubapi_balihome_testtask.data.db.AppDatabase
 import com.supersonic.githubapi_balihome_testtask.data.repository.UserRepositoryImpl
 import com.supersonic.githubapi_balihome_testtask.ui.viewmodel.UserViewModel
 import com.supersonic.githubapi_balihome_testtask.ui.viewmodel.UserViewModelFactory
+import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
+@AndroidEntryPoint
 class UserListFragment : Fragment() {
     private lateinit var userAdapter: UserAdapter
     private lateinit var userViewModel: UserViewModel
     private lateinit var navController: NavController
+
+    @Inject
+    lateinit var db: AppDatabase
 
 
     override fun onCreateView(
@@ -33,7 +41,7 @@ class UserListFragment : Fragment() {
 
         val recyclerView = view.findViewById<RecyclerView>(R.id.usersRecyclerView)
         userAdapter = UserAdapter { user ->
-            navigateToUserRepositoryFragment(user.login)
+            user.login?.let { navigateToUserRepositoryFragment(it) }
         }
 
         recyclerView.apply {
@@ -51,7 +59,9 @@ class UserListFragment : Fragment() {
         }
 
         val apiService = RetrofitInstance.api
-        val userRepository = UserRepositoryImpl(apiService)
+        val userDao = db.userDao()
+        val repositoryDao = db.repositoryDao()
+        val userRepository = UserRepositoryImpl(apiService, userDao, repositoryDao)
         userViewModel = ViewModelProvider(this, UserViewModelFactory(userRepository))[UserViewModel::class.java]
         userViewModel.users.observe(viewLifecycleOwner) {users ->
             userAdapter.submitList(users)

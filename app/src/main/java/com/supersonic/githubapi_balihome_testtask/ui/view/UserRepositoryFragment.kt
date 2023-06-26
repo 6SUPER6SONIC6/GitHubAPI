@@ -29,19 +29,25 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.ViewModelProvider
 import com.supersonic.githubapi_balihome_testtask.R
 import com.supersonic.githubapi_balihome_testtask.data.api.RetrofitInstance
+import com.supersonic.githubapi_balihome_testtask.data.db.AppDatabase
 import com.supersonic.githubapi_balihome_testtask.data.model.Repository
 import com.supersonic.githubapi_balihome_testtask.data.repository.UserRepositoryImpl
 import com.supersonic.githubapi_balihome_testtask.ui.viewmodel.UserViewModel
 import com.supersonic.githubapi_balihome_testtask.ui.viewmodel.UserViewModelFactory
+import dagger.hilt.android.AndroidEntryPoint
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import java.time.format.DateTimeParseException
 import java.util.Locale
+import javax.inject.Inject
 
-
+@AndroidEntryPoint
 class UserRepositoryFragment : Fragment() {
 
     private lateinit var userViewModel: UserViewModel
+
+    @Inject
+    lateinit var db: AppDatabase
 
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreateView(
@@ -51,7 +57,9 @@ class UserRepositoryFragment : Fragment() {
         val view = inflater.inflate(R.layout.fragment_user_repository, container, false)
 
         val apiService = RetrofitInstance.api
-        val userRepository = UserRepositoryImpl(apiService)
+        val userDao = db.userDao()
+        val repositoryDao = db.repositoryDao()
+        val userRepository = UserRepositoryImpl(apiService, userDao, repositoryDao)
         userViewModel = ViewModelProvider(this, UserViewModelFactory(userRepository))[UserViewModel::class.java]
 
         val login = arguments?.getString("login")

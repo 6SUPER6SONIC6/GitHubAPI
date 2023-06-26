@@ -8,7 +8,7 @@ import com.supersonic.githubapi_balihome_testtask.data.model.Repository
 import com.supersonic.githubapi_balihome_testtask.data.model.User
 import com.supersonic.githubapi_balihome_testtask.data.repository.UserRepository
 import kotlinx.coroutines.launch
-import java.lang.Exception
+
 
 class UserViewModel(private val userRepository: UserRepository) : ViewModel() {
 
